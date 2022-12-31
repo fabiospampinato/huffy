@@ -13,7 +13,7 @@ npm install --save huffy
 ```ts
 import {compress, decompress} from 'huffy';
 
-const str = 'some string to compress';
+const str = 'some string to compress, it works better longer things'.repeat ( 10 );
 const buffer = new TextEncoder ().encode ( str );
 
 const compressed = compress ( buffer );

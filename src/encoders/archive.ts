@@ -9,7 +9,6 @@ import {encode as treeEncode, decode as treeDecode} from '~/encoders/tree';
 /* MAIN */
 
 // This compresses/decompresses a Uint8Array into/from a single Uint8Array archive containing both data and metadata
-// Inputs below 12 bytes are not compressed, as compressing them would always have negative compression ratios
 // The archive format is the following:
 //   A: 4-byte - decompressed length
 //   B: 4-byte - tree structure length

@@ -29,25 +29,6 @@ class ReadableStream {
 
   /* API */
 
-  forEach ( callback: ( bit: Bit ) => void ): void {
-
-    const buffer = this.buffer;
-    const length = ( buffer.length * 8 ) - 8 - buffer[0];
-
-    for ( let c = 0, bi = 1, bl = buffer.length; bi < bl; bi++ ) {
-
-      const byte = buffer[bi];
-
-      for ( let i = 7; i >= 0 && c < length; i--, c++ ) {
-
-        callback ( ( byte >> i ) & 1 );
-
-      }
-
-    }
-
-  }
-
   read ( index: number ): Bit {
 
     const byteIndex = 1 + Math.floor ( index / 8 );

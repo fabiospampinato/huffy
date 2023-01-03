@@ -116,17 +116,28 @@ const decode = ( output: ReadableStream, root: Node, length: number ): Uint8Arra
   let cursor = 0;
   let node = root;
 
-  output.forEach ( bit => {
+  const buffer = output.buffer;
+  const bufferLength = ( buffer.length * 8 ) - 8 - buffer[0];
+
+  for ( let c = 0, bi = 1, bl = buffer.length; bi < bl; bi++ ) {
+
+    const byte = buffer[bi];
+
+    for ( let i = 7; i >= 0 && c < bufferLength; i--, c++ ) {
+
+      const bit = ( byte >> i ) & 1;
 
     node = bit ? node.right! : node.left!;
 
-    if ( node.left || node.right ) return;
+      if ( node.left || node.right ) continue;
 
     decoded[cursor++] = node.value;
 
     node = root;
 
-  });
+    }
+
+  }
 
   return decoded;
 

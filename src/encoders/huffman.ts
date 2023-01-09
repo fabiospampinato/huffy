@@ -146,7 +146,6 @@ const decode = ( output: ReadableStream, root: Node, length: number ): Uint8Arra
       const stateThis: DecodeState = { chunk, node, state };
       const stateNext = stateThis.state = ( node2state.get ( node ) || stateThis );
 
-      chunk = stateThis.chunk;
       state[byte] = stateThis;
       state = stateNext;
       node2state.set ( node, stateNext );

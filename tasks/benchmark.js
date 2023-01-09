@@ -1,13 +1,14 @@
 
 /* IMPORT */
 
+import {assert} from 'fava';
 import {deflateSync, inflateSync} from 'fflate';
 import fs from 'node:fs';
 import {compress, decompress} from '../dist/index.js';
 
 /* HELPERS */
 
-const FIXTURE = fs.readFileSync ( 'tasks/fixture.txt' );
+const FIXTURE = new Uint8Array ( fs.readFileSync ( 'tasks/fixture.txt' ) );
 
 /* MAIN */
 
@@ -21,6 +22,7 @@ const FIXTURE = fs.readFileSync ( 'tasks/fixture.txt' );
   console.timeEnd ( 'huffy.decompress' );
 
   console.log ( 'huffy.ratio', compressed.length / FIXTURE.length );
+  assert.deepEqual ( FIXTURE, decompressed );
 }
 
 {
@@ -33,4 +35,5 @@ const FIXTURE = fs.readFileSync ( 'tasks/fixture.txt' );
   console.timeEnd ( 'fflate.inflate' );
 
   console.log ( 'fflate.ratio', deflated.length / FIXTURE.length );
+  assert.deepEqual ( FIXTURE, inflated );
 }

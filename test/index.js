@@ -27,7 +27,7 @@ describe ( 'Huffy', () => {
 
     });
 
-    it ( 'can encode and decode a repeating charaxter', t => {
+    it ( 'can encode and decode a repeating character', t => {
 
       for ( let i = 0; i < 1000; i++ ) {
 

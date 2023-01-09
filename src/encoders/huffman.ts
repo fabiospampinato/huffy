@@ -3,7 +3,7 @@
 
 import {ReadableStream, WritableStream} from '~/stream';
 import {Node} from '~/tree';
-import type {Bit, Byte} from '~/types';
+import type {Bit, Byte, DecodeState} from '~/types';
 
 /* HELPERS */
 
@@ -112,28 +112,50 @@ const encode = ( input: Uint8Array ): [ReadableStream, Node, number] => {
 const decode = ( output: ReadableStream, root: Node, length: number ): Uint8Array => {
 
   const decoded = new Uint8Array ( length );
-
-  let cursor = 0;
-  let node = root;
-
   const buffer = output.buffer;
-  const bufferLength = ( buffer.length * 8 ) - 8 - buffer[0];
 
-  for ( let c = 0, bi = 1, bl = buffer.length; bi < bl; bi++ ) {
+  let chunk: number[];
+  let cursor = 0;
+  let state: DecodeState = { chunk: [], node: root };
+  let node2state = new Map<Node, DecodeState> ([[ root, state ]]);
 
-    const byte = buffer[bi];
+  for ( let i = 1, l = buffer.length; i < l; i++ ) {
 
-    for ( let i = 7; i >= 0 && c < bufferLength; i--, c++ ) {
+    const byte = buffer[i];
+    const stateNext = state[byte];
 
-      const bit = ( byte >> i ) & 1;
+    if ( stateNext ) {
 
-    node = bit ? node.right! : node.left!;
+      chunk = stateNext.chunk;
+      state = stateNext.state || stateNext;
 
-      if ( node.left || node.right ) continue;
+    } else {
 
-    decoded[cursor++] = node.value;
+      chunk = [];
 
-    node = root;
+      let node = state.node;
+      for ( let i = 7; i >= 0; i-- ) {
+        const bit = ( byte >> i ) & 1;
+        node = ( bit ? node.right : node.left )!;
+        if ( !node.left && !node.right ) {
+          chunk.push ( node.value );
+          node = root;
+        }
+      }
+
+      const stateThis: DecodeState = { chunk, node, state };
+      const stateNext = stateThis.state = ( node2state.get ( node ) || stateThis );
+
+      chunk = stateThis.chunk;
+      state[byte] = stateThis;
+      state = stateNext;
+      node2state.set ( node, stateNext );
+
+    }
+
+    for ( let ci = 0, cl = chunk.length; ci < cl; ci++ ) {
+
+      decoded[cursor++] = chunk[ci];
 
     }
 

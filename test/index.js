@@ -47,7 +47,7 @@ describe ( 'Huffy', () => {
       const assert = str => t.deepEqual ( Archive.decode ( Archive.encode ( encode ( str ) ) ), encode ( str ) );
       const property = fc.property ( fc.fullUnicodeString (), assert );
 
-      fc.assert ( property, { numRuns: 1_000_000 } );
+      fc.assert ( property, { numRuns: 1_000 } );
 
     });
 

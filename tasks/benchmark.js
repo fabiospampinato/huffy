@@ -4,7 +4,6 @@
 import {assert} from 'fava';
 import {deflateSync, inflateSync} from 'fflate';
 import fs from 'node:fs';
-import colors from 'tiny-colors';
 import {compress, decompress} from '../dist/index.js';
 
 /* HELPERS */
@@ -19,7 +18,7 @@ const FIXTURES = [['War and Peace -> Clear', FIXTURE1], ['War and Peace -> Compr
 
 for ( const [name, FIXTURE] of FIXTURES ) {
 
-  console.log ( colors.cyan ( name ) );
+  console.log ( `${name}\n${'-'.repeat ( name.length )}` );
 
   {
     console.time ( 'huffy.compress' );
@@ -46,5 +45,7 @@ for ( const [name, FIXTURE] of FIXTURES ) {
     console.log ( 'fflate.ratio', deflated.length / FIXTURE.length );
     assert.deepEqual ( FIXTURE, inflated );
   }
+
+  console.log ();
 
 }

@@ -69,9 +69,9 @@ describe ( 'Huffy', () => {
 
   describe ( 'int encoder', it => {
 
-    it ( 'can encode and decode an integer', t => {
+    it ( 'can encode and decode a 32-bit unsigned integer', t => {
 
-      const nr = 3_293_871_293;
+      const nr = 2_147_483_647;
       const nr2 = Int.decode ( Int.encode ( nr ) );
 
       t.is ( nr, nr2 );

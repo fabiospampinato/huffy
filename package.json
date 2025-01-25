@@ -27,6 +27,9 @@
     "compression",
     "decompression"
   ],
+  "dependencies": {
+    "int32-encoding": "^1.0.1"
+  },
   "devDependencies": {
     "fast-check": "^3.23.2",
     "fava": "^0.3.4",

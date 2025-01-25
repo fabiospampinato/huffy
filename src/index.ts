@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import {encode, decode} from '~/encoders/archive';
+import {encode, decode} from './encoders/archive';
 
 /* MAIN */
 

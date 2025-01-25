@@ -1,10 +1,10 @@
 
 /* IMPORT */
 
-import {encode as huffmanEncode, decode as huffmanDecode} from '~/encoders/huffman';
-import {encode as intEncode, decode as intDecode} from '~/encoders/int';
-import {encode as streamEncode, decode as streamDecode} from '~/encoders/stream';
-import {encode as treeEncode, decode as treeDecode} from '~/encoders/tree';
+import {encode as huffmanEncode, decode as huffmanDecode} from './huffman';
+import {encode as intEncode, decode as intDecode} from './int';
+import {encode as streamEncode, decode as streamDecode} from './stream';
+import {encode as treeEncode, decode as treeDecode} from './tree';
 
 /* MAIN */
 

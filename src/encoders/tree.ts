@@ -1,9 +1,9 @@
 
 /* IMPORT */
 
-import {ReadableStream, WritableStream} from '~/stream';
-import {Node} from '~/tree';
-import type {Cursor} from '~/types';
+import {ReadableStream, WritableStream} from '../stream';
+import {Node} from '../tree';
+import type {Cursor} from '../types';
 
 /* HELPERS */
 

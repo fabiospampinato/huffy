@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import type {Bit} from '~/types';
+import type {Bit} from './types';
 
 /* MAIN */
 

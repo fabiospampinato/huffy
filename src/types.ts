@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import type {Node} from '~/tree';
+import type {Node} from './tree';
 
 /* MAIN */
 

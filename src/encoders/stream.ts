@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import {ReadableStream} from '~/stream';
+import {ReadableStream} from '../stream';
 
 /* MAIN */
 

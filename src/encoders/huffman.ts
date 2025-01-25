@@ -9,11 +9,11 @@ import type {Bit, Byte, DecodeState} from '../types';
 
 const getLeaves = ( input: Uint8Array ): Node[] => {
 
-  const weights = new Array ( 256 ).fill ( 0 );
+  const weights = new Uint32Array ( 256 );
 
   input.forEach ( byte => weights[byte] += 1 );
 
-  const nodes = weights.map ( ( weight, value ) => new Node ( value, weight ) );
+  const nodes = [...weights].map ( ( weight, value ) => new Node ( value, weight ) );
   const nodesFiltered = nodes.filter ( node => node.weight );
   const nodesSorted = nodesFiltered.sort ( ( a, b ) => a.weight - b.weight );
 

@@ -2,6 +2,7 @@
   "name": "huffy",
   "repository": "github:fabiospampinato/huffy",
   "description": "A tiny compression library based on Huffman coding.",
+  "license": "MIT",
   "version": "1.2.0",
   "type": "module",
   "main": "dist/index.js",
@@ -27,11 +28,10 @@
     "decompression"
   ],
   "devDependencies": {
-    "fast-check": "^3.12.0",
-    "fava": "^0.2.1",
-    "fflate": "^0.8.0",
-    "tiny-colors": "^2.0.2",
-    "tsex": "^3.0.1",
-    "typescript": "^5.1.6"
+    "fast-check": "^3.23.2",
+    "fava": "^0.3.4",
+    "fflate": "^0.8.2",
+    "tsex": "^4.0.2",
+    "typescript": "^5.7.3"
   }
 }

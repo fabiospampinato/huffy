@@ -7,12 +7,21 @@ import type {Bit, Byte, DecodeState} from '../types';
 
 /* HELPERS */
 
-const getLeaves = ( input: Uint8Array ): Node[] => {
+const getLeavesWeights = ( input: Uint8Array ): Uint32Array => {
 
   const weights = new Uint32Array ( 256 );
 
-  input.forEach ( byte => weights[byte] += 1 );
+  for ( let i = 0, l = input.length; i < l; i++ ) {
+    weights[input[i]] += 1;
+  }
 
+  return weights;
+
+};
+
+const getLeaves = ( input: Uint8Array ): Node[] => {
+
+  const weights = getLeavesWeights ( input );
   const nodes = [...weights].map ( ( weight, value ) => new Node ( value, weight ) );
   const nodesFiltered = nodes.filter ( node => node.weight );
   const nodesSorted = nodesFiltered.sort ( ( a, b ) => a.weight - b.weight );

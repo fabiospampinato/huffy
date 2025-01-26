@@ -86,7 +86,7 @@ describe ( 'Huffy', () => {
 
       const bits = [1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0];
       const stream = new WritableStream ();
-      bits.forEach ( bit => stream.write ( bit ) );
+      bits.forEach ( bit => stream.writeBit ( bit ) );
       const stream2 = Stream.decode ( Stream.encode ( stream ) );
 
       t.deepEqual ( stream.buffer, stream2.buffer );

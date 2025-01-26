@@ -110,7 +110,7 @@ const encode = ( input: Uint8Array ): [ReadableStream, Node, number] => {
   for ( let ii = 0, il = input.length; ii < il; ii++ ) {
     const path = paths[input[ii]];
     for ( let oi = 0, ol = path.length; oi < ol; oi++ ) {
-      encoded.write ( path[oi] );
+      encoded.writeBit ( path[oi] );
     }
   }
 

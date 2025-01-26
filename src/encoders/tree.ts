@@ -11,7 +11,7 @@ const encodeInner = ( node: Node | undefined, structure: WritableStream, data: U
 
   if ( node ) {
 
-    structure.write ( 1 );
+    structure.writeBit ( 1 );
     data[cursor.value++] = node.value;
 
     encodeInner ( node.left, structure, data, cursor );
@@ -19,7 +19,7 @@ const encodeInner = ( node: Node | undefined, structure: WritableStream, data: U
 
   } else {
 
-    structure.write ( 0 );
+    structure.writeBit ( 0 );
 
   }
 
@@ -27,7 +27,7 @@ const encodeInner = ( node: Node | undefined, structure: WritableStream, data: U
 
 const decodeInner = ( structure: ReadableStream, data: Uint8Array, cursorStructure: Cursor, cursorData: Cursor ): Node | undefined => {
 
-  const isNode = structure.read ( cursorStructure.value++ );
+  const isNode = structure.readBit ( cursorStructure.value++ );
 
   if ( !isNode ) return;
 

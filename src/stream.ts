@@ -29,7 +29,7 @@ class ReadableStream {
 
   /* API */
 
-  read ( index: number ): Bit {
+  readBit ( index: number ): Bit {
 
     const byteIndex = 1 + Math.floor ( index / 8 );
     const bitIndex = 7 - ( index % 8 );
@@ -48,7 +48,7 @@ class WritableStream extends ReadableStream {
 
   /* API */
 
-  write ( bit: Bit ): void {
+  writeBit ( bit: Bit ): void {
 
     const byteIndex = 1 + Math.floor ( this.cursor / 8 );
     const bitIndex = 7 - ( this.cursor % 8 );

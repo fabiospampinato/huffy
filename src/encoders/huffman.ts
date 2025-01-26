@@ -7,6 +7,28 @@ import type {Bit, Byte, DecodeState} from '../types';
 
 /* HELPERS */
 
+const getByte = ( bits: Bit[] ): Byte => {
+
+  return parseInt ( bits.join ( '' ).padEnd ( 8, '0' ), 2 );
+
+};
+
+const getChunks = <T> ( values: T[], size: number ): T[][] => {
+
+  const result: T[][] = [];
+
+  for ( let i = 0, l = values.length; i < l; i += size ) {
+
+    const chunk = values.slice ( i, i + size );
+
+    result.push ( chunk );
+
+  }
+
+  return result;
+
+};
+
 const getLeavesWeights = ( input: Uint8Array ): Uint32Array => {
 
   const weights = new Uint32Array ( 256 );
@@ -66,9 +88,9 @@ const getRoot = ( leaves: Node[] ): Node => {
 
 };
 
-const getPaths = ( leaves: Node[] ): Record<Byte, Bit[]> => {
+const getPaths = ( leaves: Node[] ): Record<Byte, [bytes: Byte[], bits: number, padding: number]> => {
 
-  const paths: Record<Byte, Bit[]> = {};
+  const paths: Record<Byte, [bytes: Byte[], bits: number, padding: number]> = {};
 
   leaves.forEach ( leaf => {
 
@@ -86,7 +108,11 @@ const getPaths = ( leaves: Node[] ): Record<Byte, Bit[]> => {
 
     }
 
-    paths[leaf.value] = path.reverse ();
+    const bits = path.reverse ();
+    const bytes = getChunks ( bits, 8 ).map ( getByte );
+    const padding = ( 8 - ( bits.length % 8 ) ) % 8;
+
+    paths[leaf.value] = [bytes, bits.length, padding];
 
   });
 
@@ -104,13 +130,15 @@ const encode = ( input: Uint8Array ): [ReadableStream, Node, number] => {
   const root = getRoot ( leaves );
   const paths = getPaths ( leaves );
 
-  const length = leaves.reduce ( ( acc, leaf ) => acc + ( leaf.weight * paths[leaf.value].length ), 0 );
+  const length = leaves.reduce ( ( acc, leaf ) => acc + ( leaf.weight * paths[leaf.value][1] ), 0 );
   const encoded = new WritableStream ( length );
 
   for ( let ii = 0, il = input.length; ii < il; ii++ ) {
     const path = paths[input[ii]];
-    for ( let oi = 0, ol = path.length; oi < ol; oi++ ) {
-      encoded.writeBit ( path[oi] );
+    const bytes = path[0];
+    const padding = path[2];
+    for ( let bi = 0, bl = bytes.length; bi < bl; bi++ ) {
+      encoded.writeByte ( bytes[bi], bi === bl - 1 ? padding : 0);
     }
   }
 

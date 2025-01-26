@@ -58,6 +58,28 @@ class WritableStream extends ReadableStream {
 
   }
 
+  writeByte ( byte: number, padding: number ): void {
+
+    const byteIndex = 1 + Math.floor ( this.cursor / 8 );
+    const bitIndex = ( this.cursor % 8 );
+
+    this.buffer[byteIndex] |= byte >> bitIndex;
+
+    const availableBits = 8 - bitIndex;
+    const wantedBits = 8 - padding;
+    const writtenBits = Math.min ( wantedBits, availableBits );
+
+    this.cursor += writtenBits;
+
+    const leftoverWritableBits = wantedBits - writtenBits;
+
+    if ( leftoverWritableBits > 0 ) {
+      this.buffer[byteIndex + 1] |= (byte << writtenBits) & 255;
+      this.cursor += leftoverWritableBits;
+    }
+
+  }
+
 }
 
 /* EXPORT */
